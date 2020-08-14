@@ -4,7 +4,7 @@ import meals from './meals.json';
 import MealBox from './components/MealBox.jsx';
 import AddNewMeal from './components/AddNewMeal.jsx';
 import Search from './components/Search.jsx';
-
+import TodaysMeals from './components/TodaysMeals.jsx';
 function generateId() {
   return Math.random().toString();
 }
@@ -15,9 +15,17 @@ class App extends Component {
     this.state = {
       allMeals: meals,
       currentFood: meals,
-      showForm: false
+      showForm: false,
+      todaysMeals: []
     };
   }
+
+  addToToday = data => {
+    console.log(data);
+
+    console.log('adding');
+  };
+
   showForm = () => {
     this.setState({
       showForm: !this.state.showForm
@@ -57,13 +65,6 @@ class App extends Component {
       item.name.toLowerCase().includes(term)
     );
 
-    // if (term.length !== 0) {
-    //   food =
-    //   );
-    // } else {
-    //   food = [allMeals];
-    // }
-
     console.log(
       allMeals.length,
       filteredFood.length,
@@ -81,6 +82,8 @@ class App extends Component {
         <Search query={this.state.query} onType={this.search}></Search>
         <button onClick={this.showForm}>Add a meal!</button>
 
+        <TodaysMeals></TodaysMeals>
+
         <AddNewMeal
           show={this.state.showForm}
           submit={this.submitNewFood}
@@ -93,6 +96,8 @@ class App extends Component {
               img={f.image}
               name={f.name}
               calories={f.calories}
+              todaysMeals={this.state.todaysMeals}
+              addToToday={this.addToToday}
             />
           );
         })}
